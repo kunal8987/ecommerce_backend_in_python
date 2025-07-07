@@ -32,7 +32,7 @@ class CartItemViewSet(viewsets.ModelViewSet):
 # ------------------------------xxxx----------------
 
 
-class CheckoutView(views.APIView):
+class CheckoutView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     @transaction.atomic
@@ -64,5 +64,3 @@ class CheckoutView(views.APIView):
 
         cart.items.all().delete()  # Clear cart
         return Response(OrderSerializer(order).data, status=status.HTTP_201_CREATED)
-
-
