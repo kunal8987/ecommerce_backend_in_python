@@ -1,6 +1,6 @@
 import axios from "axios";
 
-let apiUrl = "http://localhost:8000/api/v1";
+let apiUrl = process.env.API_URL || "http://localhost:8000/api/v1";
 
 export const getApiUrl = axios.create({
   baseURL: apiUrl,

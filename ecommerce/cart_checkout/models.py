@@ -31,10 +31,17 @@ class Order(models.Model):
         return f"Order #{self.id} by {self.user.email}"
 
 
+# store/models.py
+
+
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField()
-    price = models.DecimalField(
-        max_digits=10, decimal_places=2
-    )  # Price at time of purchase
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def save(self, *args, **kwargs):
+        # if price is falsy or None, pull from product
+        if not self.price:
+            self.price = self.product.price
+        super().save(*args, **kwargs)
